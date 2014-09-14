@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+#
+# moflint
+#
+# MOF syntax checker
+#  and Mofparser tester
+#
+# Usage: moflint [-I <incdir>] <moffile> [ <moffile> ... ]
+#
+
+require 'rubygems'
+require 'pathname'
+
+$:.push(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+require 'mof'
+
+moffiles, options = MOF::Parser.argv_handler "moflint", ARGV
+options[:style] ||= :cim;
+options[:includes] ||= []
+options[:includes].unshift(Pathname.new ".")
+
+parser = MOF::Parser.new options
+
+if moffiles.empty?
+  $stderr.puts "Usage: moflint [-I <incdir>] <moffile> [ <moffile> ... ]"
+  exit 1
+end
+
+begin
+  result = parser.parse moffiles
+rescue Exception => e
+  parser.error_handler e
+  exit 1
+end
+
+result.each do |name,res|
+  puts "/*=============== #{name} ===================*/\n"
+  puts res
+end
