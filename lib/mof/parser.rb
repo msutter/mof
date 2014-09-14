@@ -936,7 +936,7 @@ module_eval <<'.,.,', 'lib/mof/parser.y', 196
 
 module_eval <<'.,.,', 'lib/mof/parser.y', 211
   def _reduce_48( val, _values, result )
- raise ParseError.new("Class name must be prefixed by '<schema>_'") unless @style == :wmi
+ raise ParseError.new("Class name must be prefixed by '<schema>_'") unless !val[0].empty? || @style == :wmi
    result
   end
 .,.,
