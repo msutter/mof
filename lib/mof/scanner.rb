@@ -19,7 +19,7 @@
 # @q: Queue of [token,value] pairs, [false,false] denotes EOF
 #
 
-#require 'iconv'
+require 'iconv'
 
 module MOF
 module Scanner
@@ -41,7 +41,7 @@ module Scanner
 
 #    $stderr.puts "fill_queue(#{@line.split('').inspect})"
     @line.chomp!  # remove $/
-#    @line = Iconv.conv( "ISO-8859-1", @iconv, @line ) if @iconv
+    @line = Iconv.conv( "ISO-8859-1", @iconv, @line ) if @iconv
 #    $stderr.puts "scan(#{@line})" unless @quiet
     scanner = StringScanner.new(@line)
 
